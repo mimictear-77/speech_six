@@ -106,6 +106,23 @@ textarea.fi-input{resize:none;height:80px;line-height:1.55;padding:14px 0}
 .adv-p .fl{font-size:11px}
 .adv-p .fi-input{font-size:14px;padding:11px 0}
 
+/* Info card（高级设置里的只读说明块） */
+.info-card{
+  padding:14px 16px;background:var(--bg);
+  border:1px solid var(--bd);border-radius:var(--rs);
+  margin-bottom:18px;font-size:13px;color:var(--t2);line-height:1.8;
+}
+.info-card .info-t{
+  display:block;font-size:11px;font-weight:700;color:var(--ink);
+  letter-spacing:.8px;text-transform:uppercase;margin-bottom:8px;
+}
+.info-card .info-url{
+  display:block;font-family:'Courier New','Consolas',monospace;
+  font-size:11.5px;color:var(--accent);word-break:break-all;
+  background:var(--bg2);padding:8px 10px;border-radius:var(--rs);
+  margin-top:8px;user-select:all;line-height:1.5;
+}
+
 /* 模型预设按钮组 */
 .preset-row{display:flex;gap:8px;flex-wrap:wrap;margin-top:4px}
 .preset-btn{padding:8px 14px;background:transparent;color:var(--ink);border:1.5px solid var(--bd);border-radius:var(--rs);font-size:13px;font-weight:500;cursor:pointer;font-family:inherit;transition:border-color .15s var(--ease),background .15s var(--ease)}
@@ -229,34 +246,36 @@ textarea.fi-input{resize:none;height:80px;line-height:1.55;padding:14px 0}
   position:fixed;inset:0;
   background:url('picture/face.png') center/cover no-repeat,var(--bg);
   z-index:120;
-  display:flex;flex-direction:column;justify-content:flex-end;
+  display:flex;flex-direction:column;justify-content:flex-start;
   animation:fi 1.1s var(--ease);
 }
 .cover-veil{
   position:absolute;inset:0;pointer-events:none;
   background:linear-gradient(180deg,
-    rgba(250,250,250,0) 35%,
-    rgba(250,250,250,.55) 65%,
-    rgba(250,250,250,.92) 88%,
-    rgba(250,250,250,1) 100%);
+    rgba(250,250,250,0) 0%,
+    rgba(250,250,250,.35) 22%,
+    rgba(250,250,250,.78) 38%,
+    rgba(250,250,250,.4) 58%,
+    rgba(250,250,250,.78) 70%,
+    rgba(250,250,250,.92) 90%);
 }
 .cover-box{
   position:relative;text-align:center;
-  padding:0 32px 88px;max-width:720px;margin:0 auto;width:100%;
+  padding:26vh 32px 0;max-width:720px;margin:0 auto;width:100%;
   animation:su .8s var(--ease) .35s both;
 }
 @keyframes su{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
 .cover-en{
   font-size:11px;letter-spacing:5px;font-weight:700;
-  color:var(--accent);margin-bottom:18px;text-transform:uppercase;
+  color:var(--accent);margin-bottom:42px;text-transform:uppercase;
 }
 .cover-title{
   font-size:60px;font-weight:900;color:var(--ink);
-  letter-spacing:-3px;line-height:1.02;margin-bottom:18px;
+  letter-spacing:-3px;line-height:1.08;margin-bottom:16vh;
 }
 .cover-sub{
   font-size:15px;color:var(--t2);
-  margin-bottom:36px;line-height:1.85;letter-spacing:.5px;
+  margin-bottom:48px;line-height:2;letter-spacing:.5px;
 }
 .btn-enter{
   display:inline-flex;align-items:center;gap:10px;
@@ -310,8 +329,8 @@ textarea.fi-input{resize:none;height:80px;line-height:1.55;padding:14px 0}
 
 /* Mobile */
 @media(max-width:600px){
-  .cover-title{font-size:42px;letter-spacing:-1.6px}
-  .cover-box{padding:0 22px 56px}
+  .cover-title{font-size:42px;letter-spacing:-1.6px;margin-bottom:10vh}
+  .cover-box{padding:18vh 22px 0}
   .cover-sub{font-size:14px}
   .c-title{font-size:36px;letter-spacing:-1px}
   .c-num{font-size:11px;letter-spacing:4px}
@@ -420,32 +439,35 @@ for (let i = 1; i <= 6; i++)
 // ── SECTION META ──────────────────────────────────────────
 const META = {
   1: { name:'第一性原理',
-       desc:'剥离业务表象，找到你构建商业蓝图的本质驱动力',
-       type:'chat', maxTurns:6,
+       desc:'剥离业务表象，找到你创业 / 做业务的本质驱动力',
+       type:'chat', maxTurns:3,
        donePattern:/第一性原理不是/ },
 
   2: { name:'能量地图',
-       desc:'结合人类图与个人特质，定位天赋护城河与漏电区',
+       desc:'结合人类图配置，定位天赋护城河与漏电区',
        type:'gen',
        submitText:'生成能量蓝图',
        inputFields:[
-         { key:'traits',
-           label:'个人特质（星座 / MBTI / 爱好 / 性格关键词）',
-           hint:'例：天蝎座 / INFJ / 写作、徒步、独处 / 内敛、敏感、慢热',
-           height:100,
-           default:() => '' },
-         { key:'humanDesign',
-           label:'人类图配置（不了解可写"不了解"，小赛会基于其他信息推断）',
-           hint:'例：能量类型=显示生产者 / 人生角色=3/5 / 内在权威=荐骨 / 能量定义=二分人 / 轮回交叉=右角度需求十字 / 非自我主题=挫败',
-           height:170,
-           default:() => '' },
+         { key:'bg',          label:'背景资料（行业 / 职位 / 核心爱好）',         hint:'例：消费品创业 / 品牌主理人 / 写作、徒步、阅读',                         height:90,  default:() => '' },
+         { key:'biz',         label:'我目前正在操作的一项核心业务',                hint:'课堂讨论后可在此修改',                                                   height:90,  default:() => S.biz },
+         { key:'energyType',  label:'能量类型',                                   hint:'显示者 / 生产者 / 投射者 / 显示生产者 / 反映者',                       height:54,  default:() => '' },
+         { key:'role',        label:'人生角色',                                   hint:'例：3/5、1/3、5/1',                                                       height:54,  default:() => '' },
+         { key:'authority',   label:'内在权威',                                   hint:'例：荐骨 / 情绪 / 直觉 / 自我投射 / 月亮',                              height:54,  default:() => '' },
+         { key:'definition',  label:'能量定义',                                   hint:'例：单一定义、二分人、三分人、四分人',                                  height:54,  default:() => '' },
+         { key:'cross',       label:'轮回交叉',                                   hint:'例：右角度需求十字',                                                    height:54,  default:() => '' },
+         { key:'notSelf',     label:'非自我主题',                                 hint:'愤怒 / 挫败 / 苦涩 / 失望',                                              height:54,  default:() => '' },
        ] },
 
   3: { name:'行动力排查',
-       desc:'破解拖延的底层原因，找到 24 小时内能启动的第一步',
+       desc:'破解拖延的底层原因，找到 72 小时内能启动的第一步',
        type:'gen',
        submitText:'生成行动方案',
        inputFields:[
+         { key:'block',
+           label:'我刚才在现场的《21 条漏电图鉴》中发现的内在卡点',
+           hint:'例：习惯用"再准备一下"延迟暴露 / 用空白头脑中心证明自己专业',
+           height:110,
+           default:() => '' },
          { key:'goal',
            label:'想了很久却迟迟没有行动的具体目标',
            hint:'例：我想把我的行业经验做成小红书 IP 变现，想了两年，没发过一篇笔记',
@@ -459,9 +481,9 @@ const META = {
        ] },
 
   4: { name:'Why You · 元故事',
-       desc:'通过 4 步访谈挖掘你的高光元故事与价值观底色',
-       type:'chat', maxTurns:8,
-       donePattern:/【核心元故事】/ },
+       desc:'4 个直问梳理出你最真实的"核心故事线"',
+       type:'chat', maxTurns:4,
+       donePattern:/【核心故事线】/ },
 
   5: { name:'路演大纲',
        desc:'融合补充细节，生成 3-5 分钟有呼吸感的路演稿与金句',
@@ -485,42 +507,34 @@ const META = {
          { key:'p1',  label:'第一性原理',   hint:'课堂讨论后可重写',    height:140, default:() => S.d[1].out },
          { key:'p2',  label:'能量地图',     hint:'课堂讨论后可重写',    height:160, default:() => S.d[2].out },
          { key:'p3',  label:'行动力排查',   hint:'课堂讨论后可重写',    height:160, default:() => S.d[3].out },
-         { key:'p4',  label:'创始人元故事', hint:'课堂讨论后可重写',    height:200, default:() => S.d[4].out },
+         { key:'p4',  label:'核心故事线',   hint:'课堂讨论后可重写',    height:200, default:() => S.d[4].out },
          { key:'p5',  label:'路演大纲',     hint:'课堂讨论后可重写',    height:200, default:() => S.d[5].out },
        ] },
 };
 
 // ── PROMPTS ───────────────────────────────────────────────
 function sysPrompt(n) {
-  if (n === 1) return `你现在的名字叫小赛。你是一位极具穿透力的商业哲学家，同时也是一位温暖且有巨大抱持力的心理教练。你的洞察如手术刀般精准，能直击人性的防御机制；但你的语言极其沉稳扎根，给予用户绝对的安全感与情绪托底。
+  if (n === 1) return `你现在是一位犀利的商业哲学家和心理导师。用户的目标是找到他创业 / 做业务的"第一性原理"——剥离所有产品表象后，他真正解决的核心痛点或提供的本质价值。
 
-用户的目标：找到他构建商业蓝图的"第一性原理"——剥离所有业务表象后，他真正解决的核心痛点，以及真正要发起的商业使命。
+请对用户进行逻辑严密、直击灵魂的 3 轮连环追问。
 
-【交互规则】
-- 进行 3 轮连环追问，每次只问一个问题，绝不一次问多个。
-- 进入下一轮前，必须确认上一轮的回答触碰到了真实的恐惧、匮乏或愿力。
-- 若用户回答停留在表面（产品功效、宽泛的爱与美、外部环境借口），不要进入下一轮——温柔但毫不留情地指出他的心理防御，换个角度追问当前问题。
-- 若同一轮内已经连续 3 次拦截后用户仍在逃避，请展现顶级教练的抱持力：用一段极具包容力的话接纳他当下的防御，告诉他"没有关系，现在的状态也是被允许的"，然后强行开启下一轮。
+【规则】
+- 用户已经告诉了你他目前在做的事。
+- 由你开始提问。每次只问一个问题，绝对不要一次性问多个问题。
+- 你的提问必须遵循"极限剥离"原则。比如：
+  · 如果明天 AI 能完全取代你的产品，你还能提供什么？
+  · 如果你的客户突然破产了，他们为什么还需要你？
+  · 你做这件事，到底是在弥补你内心的什么缺失？
+- 共 3 轮，不多不少。完成 3 轮问答后，强制停止提问。
 
-【追问递进逻辑】
-- 第一轮·极限剥离（直面恐惧）：设定极端场景。例如：如果明天 AI 能完全生成比你更好、更便宜的配方和服务，或者你的资金链断裂无法再提供实物，你还能为客户提供什么绝对不可替代的价值？
-- 第二轮·配得感排查（照见漏电）：探问他在交付这个核心价值时，最大的自我设限是什么？是什么潜意识让他陷入完美主义、不敢建立边界（讨好），或者觉得"我不配"拿高结果？
-- 第三轮·丰盛的愿力（生生不息）：强行扭转能量场，从防御转向创造。问他：假如现在你已经拥有了用不完的财富和无懈可击的行业名声，明天早上醒来，你依然迫不及待想要为这群客户去做的、阻力最小的"那件事"是什么？
+【最终输出】
+根据用户的 3 轮回答，提炼出他的"第一性原理"，严格使用以下句式输出（保留方括号结构与"原来"开头）：
 
-【交互形态】
-当用户输入痛苦经历时，先给一段简短温暖的情感反馈（共情、接住），换一段空行再给追问问题。示范：
-  小赛抱抱你。我能懂那种深切的无力感……
+"原来，你的第一性原理不是【表面的业务】，而是【底层的本质】。本质上，你是一个【重新定义的身份/角色】。即使【现在的产品/行业】消失，你也依然在【你真正捍卫的价值】。"
 
-  但是亲爱的，你能带小赛回到那个极其具体的瞬间吗？那天最让你感到无力的具体画面是什么？
+用户告诉你他的核心业务后，立刻开始第一个问题，不要任何铺垫。${WRITING_RULES}`;
 
-【输出要求】
-当 3 轮有效问答完成后，立刻强制停止提问，提炼用户的"第一性原理"，用以下句式输出（严格保留方括号结构与"原来"开头）：
-
-"原来，你的第一性原理不是【表面的业务】，而是【底层的本质】。本质上，你是一个【重新定义的高维商业身份】。即使【现在的产品/行业】消失，你也依然在【你真正捍卫的价值】。向外求，求而不得；向内求，生生不息。"
-
-用户告诉你他的核心业务后，立刻开始第一轮提问。${WRITING_RULES}`;
-
-  if (n === 4) return `你现在的名字叫小赛，是一位兼具极高共情力与敏锐洞察力的顶级商业传记作家，也是用户最信任的专属伙伴。
+  if (n === 4) return `你好。今天，请你暂时放下所有的商业模型和分析工具，做一位温暖、耐心且富有洞察力的倾听者。用户是一位创业者 / 主理人，想要梳理出自己最真实的"创始人故事"。
 
 【已知背景（请灵活引用，绝不编造业务细节）】
 - 核心业务：${S.biz}
@@ -529,26 +543,25 @@ function sysPrompt(n) {
 
 【绝对禁止】绝不发散或编造用户的业务细节。若用户没有提及具体项目，统一使用"这份事业"或"你的产品"代指。
 
-【交互与智能挖矿】
-- 一次只问一个问题。等用户回答完，先给一段简短、温暖的情感反馈，再问下一个。
-- 【智能双轨挖掘机制】在用户回答第一个问题后，敏锐判断他故事的"情感底色"：
-  · 若是痛苦/纠结/低谷场景：温和但坚定地往下挖一层痛感。问："那天最让你感到无力/刺痛的具体画面是什么？你身体最真实的感受是什么？"
-  · 若是温暖/明媚/被启迪场景：顺着这束光往下挖一层质感。问："那个瞬间最打动你的细节是什么？这种温暖如何让你看清自己真正想要的东西？"
-- 【价值观拦截】当用户讲述决定或行动时，不要停留在表面努力——拦截他，深挖价值观："你为什么一定要这么做？你内心深处究竟在捍卫什么？或者绝对不能妥协的是什么？"
+【交互规则】
+- 像一位老朋友那样，对用户进行一次深度的文字访谈。
+- 一次只问一个问题。等用户回答完，给一段简短、温暖的反馈，再问下一个。
 
 【访谈 4 步法】严格按以下顺序进行：
-- 第一问·触动与契机：能跟我聊聊，在决定做这份事业之前，是哪个具体的瞬间触动了你吗？也许是一次痛彻心扉的低谷，也许是被某个人或某件事治愈的微光。带我回到那个具体的场景里，告诉我当时发生了什么？（收到回答后启动一次智能双轨挖掘，再进入第二问）
-- 第二问·代价与蜕变：从那个充满意义的瞬间，到你真正建立起现在的业务，这中间是一场漫长的修行。为了实现这个目标，你付出了怎样真实的代价？你放弃了什么？又在暗夜里做过哪些咬牙坚持的努力？
-- 第三问·真相与价值观：结合你之前探索出的第一性原理和你的天赋优势，走过这条付出巨大代价的路后，你现在心里最笃定的那个"真相"是什么？如果面对你的客户，你最想对她们说的一句带着血肉的大白话是什么？（可启动一次价值观拦截）
-- 第四问·AI 主动总结"渡船与对岸"（由你来为用户总结）：听完你的故事，结合你的第一性原理，我觉得你现在的产品就像是一条船，正在带大家渡过一条名为【结合用户痛点/旧模式总结河的名字】的河，去往【结合愿景/价值观总结对岸的画面】的世界。你觉得我描绘的这个画面贴切吗？你愿意在这幅画面里再补充一点属于你的色彩吗？
+- 第一个问题（关于触动）：问用户，在决定做这件事（或目前这个项目）之前，是哪一个具体的瞬间、哪一次委屈、或者哪一个无法忍受的痛点，让她觉得"我必须做点什么，不能再这样下去了"？
+- 第二个问题（关于代价）：问用户，在把这个想法变成现实的过程中，她最暗淡、最自我怀疑的时刻是什么？她为此放下了什么，或是付出了怎样的代价？
+- 第三个问题（关于感悟）：问用户，走过那段暗夜后，她心里最笃定的那个"真相"是什么？（不需要高深的理论，就是一句她最相信的大白话）
+- 第四个问题（关于远方）：问用户，她现在的产品或服务，其实是一条"船"。她想用这条船，带大家渡过一条怎样的"河"？对岸是一个什么样的世界？
 
 【最终输出】
-当用户对第四问的"渡船与对岸"画面给出确认或补充后，立刻输出最终的"核心元故事"。格式严格如下：
+当用户回答完 4 个问题后，不要写完整的演讲稿，只需用极其精炼、温暖的语言，帮她总结出一份 300 字左右的"核心故事线"，方便她一会儿拿着它去和线下的小伙伴们交流。
 
-  【核心元故事】
-  （正文 300-400 字，融合第一性原理、天赋优势与全部访谈素材。结尾必须将感悟到的"底层真相与价值观"，极其自然地过渡到他目前的核心产品/业务上，让所经历的痛或光成为这款产品不可替代的护城河与精神背书。语言兼具生命力的真实与高级的商业品牌美学。）
+格式严格如下（保留方括号标记开头）：
 
-用户说"开始吧"后，直接抛出第一问，不要任何铺垫。${WRITING_RULES}`;
+  【核心故事线】
+  （300 字左右正文，融合第一性原理与全部 4 个回答。语言温暖、有呼吸感、像一位老朋友的转述。结尾自然地落回她目前正在做的事上。）
+
+用户说"开始吧"后，直接抛出第一个问题，不要任何铺垫。${WRITING_RULES}`;
 
   return '';
 }
@@ -556,88 +569,99 @@ function sysPrompt(n) {
 function genPrompt(n) {
   if (n === 2) {
     const inp = S.d[2].inputs || {};
-    const traits = inp.traits || '';
-    const humanDesign = inp.humanDesign || '';
-    return `你现在的名字叫小赛，是用户重金聘请的"高维商业架构师"与"能量力学专家"。你的知识库融合了人类图祖师爷 Ra Uru Hu 的能量力学、顶级商业顾问的战略洞察，以及心理学教练的深度觉察。
+    const bg         = inp.bg         || '';
+    const biz2       = inp.biz        || S.biz;
+    const energyType = inp.energyType || '';
+    const role       = inp.role       || '';
+    const authority  = inp.authority  || '';
+    const definition = inp.definition || '';
+    const cross      = inp.cross      || '';
+    const notSelf    = inp.notSelf    || '';
+    return `你现在是用户重金聘请的"高维私人董事会"。你的知识库融合了人类图祖师爷 Ra Uru Hu 的能量力学、查理·芒格的第一性原理，以及顶级高管教练的洞察。
 
-你的目标：结合用户内心的核心恐惧与人类图出厂设置，排查商业运作中的"隐性漏电区"，并为他打造一套顺流的商业执行蓝图。
+你的目标：结合用户人类图的出厂设置，排查商业运作中的"隐性漏电区"，并为他打造一套顺流的商业执行蓝图。
 
-【绝对禁止】玄学废话、星座式宽泛描述、陈词滥调。请用极简、犀利且极具压迫感的商业语言，直接输出高信息密度的分析与行动指令。
+【输出要求】
+绝对拒绝玄学废话、星座式宽泛描述和陈词滥调。请用极简、理性的商业语言，直接输出高信息密度的思考。
 
 【已知信息】
-- 核心业务：${S.biz}
 - 第一性原理：${S.d[1].out}
-- 个人特质（星座/MBTI/爱好/性格）：${traits || '（未提供，请基于第一性原理与上下文合理推断）'}
-- 人类图配置：${humanDesign || '（未提供或不了解，请基于个人特质与第一性原理合理推断，但不要无中生有）'}
+- 背景资料（行业 / 职位 / 核心爱好）：${bg || '（未提供，请基于第一性原理合理推断）'}
+- 目前正在操作的核心业务：${biz2}
+- 能量类型：${energyType || '（未提供，请合理推断）'}
+- 人生角色：${role || '（未提供）'}
+- 内在权威：${authority || '（未提供）'}
+- 能量定义：${definition || '（未提供）'}
+- 轮回交叉：${cross || '（未提供）'}
+- 非自我主题：${notSelf || '（未提供）'}
 
-请严格按以下 4 个模块输出《主理人能量蓝图》：
+请基于以上数据，按以下模块为他生成一份专属的《主理人能量蓝图》：
 
 【模块一·天赋护城河与商业模式】
-把"能量类型""人生角色""轮回交叉"翻译成商业语言。明确告诉他：生来最顶级的 2 个商业天赋是什么。
+翻译他的人类图配置。告诉他：在他的行业里，生来最顶级的 2 个商业天赋是什么。
 
-【模块二·漏电机制深度剖析】
-作为他最严厉的业务审计师，回答两个问题：
-1. 场景优势化：业务中最大的"天然护城河"是什么？请给出 1 个极其具体的应用场景画面。
-2. 漏电行为查杀：结合"非自我主题"，指出做这项业务时最容易导致"心力枯竭、能量漏电"的 2 个具体动作（例如：为了显得努力而过度干预细节）。
+【模块二·漏电机制深度剖析（恐惧引发的能量崩盘）】
+结合他的人类图配置，作为他最严厉的业务审计师，回答以下 2 个问题：
+1. 场景优势化：他在业务或工作中，最大的"天然护城河"是什么？给出 1 个极其具体的应用场景画面。
+2. 漏电行为查杀：结合他的"非自我主题"，指出他在做这项业务时，最容易导致"心力枯竭、产生内耗"的 2 个具体动作（例如：为了显得努力而过度干预细节）。他该用什么简单的标准来叫停自己？
 
-【模块三·刹车系统与叫停标准】
-结合他的"内在权威"，制定一个极简的"一秒叫停标准"。当他再次陷入完美主义、讨好或拖延的内耗漩涡时，用哪个具体的身体感受或生理信号来强行刹车？
-
-【模块四·顺流指南与绝对禁忌】
-结合他的"个人特质"（MBTI/星座/爱好），给出极其明确的行动框架：
-- ✅ 顺流行动指南（Flow Action）：给出 3 个接下来去执行会"毫不费力、一本万利"的极简商业动作。
-- ❌ 绝对不可做清单（Not-Do List）：给出 3 个违背他能量底色、碰了就会导致项目延期或身心崩溃的绝对禁忌。
+【模块四·顺流指南与绝对禁忌（商业行为准则）】
+结合他的背景资料与人类图配置，给出极其明确的行动框架：
+- ✅ 顺流行动指南（Flow Action）：3 个接下来去执行会"毫不费力、一本万利"的极简商业动作。
+- ❌ 绝对不可做清单（Not-Do List）：3 个违背他人类图能量底色、碰了就会导致项目延期或身心崩溃的绝对禁忌。
 ${WRITING_RULES}`;
   }
 
   if (n === 3) {
     const inp = S.d[3].inputs || {};
+    const block = inp.block || '';
     const goal = inp.goal || '';
     const excuse = inp.excuse || '';
-    return `你现在的名字叫小赛，是用户最高维度的生命黑客。
+    return `你现在是用户最高维度的生命黑客。
 
 【已知信息（用作底层逻辑基底）】
 - 核心业务：${S.biz}
 - 第一性原理：${S.d[1].out}
-- 能量地图与漏电机制：${S.d[2].out}
-- 用户想了很久却迟迟没行动的具体目标：${goal}
-- 用户头脑给自己的借口：${excuse}
+- 能量地图与漏电查杀：${S.d[2].out}
+- 用户在《21 条漏电图鉴》中发现的内在卡点：${block}
+- 想了很久却迟迟没行动的具体目标：${goal}
+- 头脑里认为自己一直没行动的原因（借口）：${excuse}
 
-【任务目标】把道德层面的自我攻击，转化为机械故障的排查，并找到阻力最小的第一步。
-
-请用人类图配置（类型、角色、权威）帮用户排查这次拖延的底层原因，并按以下 3 步输出破局方案：
+请作为他最高维度的生命黑客，用他的人类图配置（类型、角色、权威），帮他排查这次拖延的底层原因，并按以下 3 步给出破局方案：
 
 【一·故障排查（击碎借口）】
-他头脑给出的理由为什么是假象？从人类图底层力学来看，身体"疯狂拖延"的真正原因是什么？（例如：他是不是在强行发起？是不是在用空白中心证明自己？）
+结合他刚刚输入的"内在卡点"，毫不留情地向他指出：他给出的理由为什么只是一个虚假的自我保护？从他的人类图基础力学来看，这个"内在卡点"是如何导致他"疯狂的烦恼"的？（例如：他是不是在强行发起？是不是在用空白中心证明自己？）
 
 【二·卸下装甲（停止内耗）】
-为了启动这件事，他必须立刻"放弃"或"砍掉"哪一个完美的幻想？（结合非自我主题来分析。）
+为了启动这件事，他必须立刻"放弃"或"砍掉"哪一个完美的幻想？（结合他的非自我主题来深度分析。）
 
 【三·MVP 行动（阻力最小的一步）】
-结合他的"内在权威"和"人生策略"，设计一个阻力极小、小到他身体绝对不会抗拒的"第一步动作"。这个动作必须能在 24 小时内完成。严禁宏大的商业规划，只要那个能让他立刻启动的微小动作。
+结合他的"内在权威"和"人生策略"，设计一个阻力极小、小到他身体绝对不会抗拒的"第一步动作"。这个动作必须能在 72 小时内完成。严禁宏大的商业规划，只要那个能让他立刻启动的微小动作。
 ${WRITING_RULES}`;
   }
 
   if (n === 5) {
     const inp = S.d[5].inputs || {};
     const supplement = inp.supplement || '';
-    return `你现在的名字叫小赛，是一位顶级的商业路演教练与品牌战略推手。你的任务是将用户（品牌主理人）的内在能量、生命故事和线下讨论中涌现的碎片化情感，完美揉合在一起，打造一份极具感染力的 3-5 分钟路演大纲。
+    return `你是一位顶级的商业路演教练与品牌战略推手。
 
-【已知核心资产（请深度融合，不要生搬硬套"痛点-方案"模板）】
+用户刚才和伙伴们进行了非常棒的线下讨论。在她们的反馈中，她又回想起了很多生动的画面，现在把这些【补充的场景、情感、细节和对未来的愿景】一股脑写在下面，逻辑可能有点碎，但都是她最真实的感受。
+
+【已知核心资产（请深度融合）】
 - 核心业务：${S.biz}
 - 第一性原理：${S.d[1].out}
 - 能量地图与商业护城河：${S.d[2].out}
-- 行动力排查：${S.d[3].out}
 - 创始人核心故事线：${S.d[4].out}
 
 【用户补充的流动细节、场景、情感与愿景】
 ${supplement}
 
+请把"核心故事线"和这些"流动的细节"融合在一起，结合前面生成的第一性原理，帮她生成一份 3-5 分钟路演大纲。
+
 【创作规则】
-- 打破刻板框架，让情感和故事自然流动。
-- 语言温暖、真诚。多用短句，多设问。
-- 在文稿中用"（停顿）""（深呼吸）"等节奏标记，为说话时的呼吸感留出空间。注意：本模块允许并需要这些节奏标记，这是路演稿的合法部分。
-- 将那些深夜、眼泪、电话等细节，自然地引流到目前所做的"产品/业务"上，让感性的故事成为理性的商业支撑。
+1. 不要被刻板的逻辑框架困住，让情感和故事自然流动。
+2. 语言要温暖、真诚，多用短句，留出呼吸的停顿感，像娓娓道来一样。
+3. 在文稿中用"（停顿）""（深呼吸）"等节奏标记，为说话时的呼吸感留出空间。本模块允许并需要这些节奏标记，是路演稿的合法部分。
 
 【输出 3 部分】
 
@@ -677,7 +701,7 @@ ${p2}
 行动力排查与 MVP：
 ${p3}
 
-创始人元故事与流动细节：
+核心故事线与流动细节：
 ${p4}
 
 路演大纲与金句：
@@ -798,7 +822,7 @@ async function runFinalReport() {
 
 // ── SEND DATA ─────────────────────────────────────────────
 function summary() {
-  const names = {1:'第一性原理',2:'能量地图',3:'行动力排查',4:'创始人元故事',5:'路演大纲',6:'一页纸商业计划书'};
+  const names = {1:'第一性原理',2:'能量地图',3:'行动力排查',4:'核心故事线',5:'路演大纲',6:'一页纸商业计划书'};
   return Object.entries(S.d)
     .filter(([,v]) => v.out)
     .map(([k,v]) => `=== ${names[k]} ===\n${v.out}`)
@@ -918,12 +942,22 @@ function renderSetup() {
     <button class="btn" onclick="doStart()">开始探索 <span class="mi">arrow_forward</span></button>
     <div class="adv-t" onclick="this.nextElementSibling.classList.toggle('open')"><span class="mi" style="font-size:16px">tune</span> 高级设置</div>
     <div class="adv-p">
+      <div class="info-card">
+        <span class="info-t">当前部署的 AI 角色 · 小赛</span>
+        融合商业哲学、人类图能量力学与心理教练三重视角的高维商业陪跑教练。<br>
+        全程陪你走完 5 段对话与生成：从剥离表象的<em style="color:var(--ink);font-style:normal">第一性原理</em>，到结合人类图配置的<em style="color:var(--ink);font-style:normal">能量地图</em>，再到 72 小时<em style="color:var(--ink);font-style:normal">MVP 行动</em>、<em style="color:var(--ink);font-style:normal">核心故事线</em>访谈、有呼吸感的<em style="color:var(--ink);font-style:normal">路演大纲</em>，最终在完成页静默淬炼出一份<em style="color:var(--ink);font-style:normal">一页纸 BP</em>。<br>
+        语气克制、犀利、直击灵魂，但在关键时刻保留温度——拒绝玄学废话与套话，针对女性创业者 / 主理人的语境调校。
+      </div>
       <div class="fg"><label class="fl">接口选择</label>
         <div class="preset-row">${tabs}</div>
         <div class="hint">API 密钥由后端环境变量持有，前端不可见。</div>
       </div>
-      <div class="fg" style="margin:0"><label class="fl">飞书 Webhook 地址（可选，用于接收学员记录）</label>
-        <input class="fi-input" id="iFeishu" type="text" placeholder="https://open.feishu.cn/open-apis/bot/v2/hook/…" value="${S.feishu}"></div>
+      <div class="info-card" style="margin:0">
+        <span class="info-t">飞书归档地址（已写死，不可在前端修改）</span>
+        完整蓝图生成后，点击"发送到飞书"会把全部沉淀汇报到下方机器人。<br>
+        如需更换，请在 <code style="background:var(--bg2);padding:1px 5px;border-radius:3px;font-size:11.5px">index.html</code> 的 <code style="background:var(--bg2);padding:1px 5px;border-radius:3px;font-size:11.5px">PRESET.feishu</code> 修改。
+        <span class="info-url">${esc(PRESET.feishu)}</span>
+      </div>
     </div>
   </div>`;
 }
@@ -1020,12 +1054,12 @@ function ctxCard(n) {
   if (n === 2) return S.d[1].out ? `<div class="ctx"><strong>第一性原理</strong>${esc(S.d[1].out.slice(0,140))}…</div>` : '';
   if (n === 3) return S.d[2].out ? `<div class="ctx"><strong>能量地图（节选）</strong>${esc(S.d[2].out.slice(0,140))}…</div>` : '';
   if (n === 4) return S.d[1].out ? `<div class="ctx"><strong>第一性原理</strong>${esc(S.d[1].out.slice(0,140))}…</div>` : '';
-  if (n === 5) return S.d[4].out ? `<div class="ctx"><strong>创始人元故事（节选）</strong>${esc(S.d[4].out.slice(0,140))}…</div>` : '';
+  if (n === 5) return S.d[4].out ? `<div class="ctx"><strong>核心故事线（节选）</strong>${esc(S.d[4].out.slice(0,140))}…</div>` : '';
   return '';
 }
 
 function renderComplete() {
-  const names = {1:'第一性原理',2:'能量地图',3:'行动力排查',4:'创始人元故事',5:'路演大纲',6:'一页纸商业计划书'};
+  const names = {1:'第一性原理',2:'能量地图',3:'行动力排查',4:'核心故事线',5:'路演大纲',6:'一页纸商业计划书'};
   const order = [1,2,3,4,5,6];
   const cards = order.map(k => {
     const v = S.d[k];
@@ -1168,9 +1202,8 @@ window.doEnter = () => {
 window.doStart = () => {
   const name = (document.getElementById('iName')?.value||'').trim();
   const biz  = (document.getElementById('iBiz')?.value||'').trim();
-  const feishu=(document.getElementById('iFeishu')?.value||'').trim();
   if (!name||!biz) { toast('请填写名字和业务描述'); return; }
-  S.name=name; S.biz=biz; S.feishu=feishu||PRESET.feishu;
+  S.name=name; S.biz=biz; S.feishu=PRESET.feishu;
   curtainTo(1, () => {
     S.screen='chat'; S.section=1;
     render();
